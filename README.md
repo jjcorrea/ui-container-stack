@@ -15,3 +15,5 @@
 ### validated
 - :white_check_mark: sticky session based on source affinity
 - :white_check_mark: reconnection after scale down
+- :white_check_mark: event broadcast to any node (independent of which one the client is connected)
+- haproxy certificate configuration

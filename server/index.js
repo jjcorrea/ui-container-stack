@@ -1,11 +1,12 @@
 // Setup basic express server
 var express = require('express');
+var os = require("os");
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var redis = require('socket.io-redis');
 var port = process.env.PORT || 3000;
-var serverName = process.env.NAME || 'Unknown';
+var serverName = os.hostname();
 var redisHost = process.env.REDIS_HOST || 'redis';
 
 io.adapter(redis({ host: redisHost, port: 6379 }));
@@ -37,7 +38,7 @@ io.on('connection', function (socket) {
     // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
       username: socket.username,
-      message: data
+      message: '['+serverName+']'+data
     });
   });
 
