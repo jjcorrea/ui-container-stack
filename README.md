@@ -5,7 +5,7 @@
 ### initialize stack
 - `docker stack deploy --compose-file docker-compose.yml webapp`
 #### remove stack
-- `docker stack rm <NAME>`	
+- `docker stack rm webapp`	
 #### service scale
 - `docker service scale webapp_app=10`
 ### troubleshooting
