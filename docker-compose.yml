@@ -1,0 +1,53 @@
+version: '3.3'
+ 
+services:
+
+  proxy:
+    image: dockercloud/haproxy
+    depends_on:
+      - app
+    environment:
+      # This will set the default load balancing strategy to "tcp source", which applies to the websocket, and set roundrobin to your REST port
+      - BALANCE=source
+      - EXTRA_FRONTEND_SETTINGS_80=balance leastconn
+      - ADDITIONAL_SERVICES=project_dir:app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8080:80
+    networks:
+      - web
+    deploy:
+      # The HAProxy is assigned as the manager.
+      placement:
+        constraints: [node.role == manager]
+
+  app:
+    image: webapp
+    depends_on:
+      - redis
+    ports:
+      - 3000
+    environment:
+      - SERVICE_PORTS=3000
+      - NAME=CHAT
+      - REDIS_HOST=redis
+    deploy:
+      replicas: 3
+      restart_policy:
+       condition: on-failure
+       max_attempts: 3
+       window: 120s
+    networks:
+      - web
+
+  redis:
+    image: redis:alpine
+    networks:
+      - web
+ 
+# Overlay network that the services and the HAProxy exists in.
+networks:
+  web:
+    driver: overlay
+ 
