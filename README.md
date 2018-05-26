@@ -15,5 +15,5 @@
 ### validated
 - :white_check_mark: sticky session based on source affinity
 - :white_check_mark: reconnection after scale down
-- :white_check_mark: event broadcast to any node (independent of which one the client is connected)
+- :white_check_mark: event broadcast to any node (independent of which one the client is connected). validated scaling application up, connecting a new client (which then connects to a new node) and event propagation still works.
 - haproxy certificate configuration

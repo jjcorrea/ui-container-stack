@@ -14,6 +14,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
+      # need to expose 443 and have the proper certificate  setup
       - 8080:80
     networks:
       - web
@@ -26,11 +27,8 @@ services:
     image: webapp
     depends_on:
       - redis
-    ports:
-      - 3000
     environment:
       - SERVICE_PORTS=3000
-      - NAME=CHAT
       - REDIS_HOST=redis
     deploy:
       replicas: 3
