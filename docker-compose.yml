@@ -15,6 +15,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       # need to expose 443 and have the proper certificate  setup
+      # ssl config: https://hub.docker.com/r/dockercloud/haproxy/
       - 8080:80
     networks:
       - web
